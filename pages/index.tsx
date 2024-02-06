@@ -1,12 +1,32 @@
 import { ConnectWallet, useContract } from "@thirdweb-dev/react";
-import { NextPage } from "next";
+import { useEffect } from "react";
 import styles from '../styles/Home.module.css';
 import Head from 'next/head';
-const Home: NextPage = () => {
-const { contract } =useContract("0x711809EDddC67f3ad6E6ae02cD7A592e78f4F7e6");
 
-return (
- 
+const Home = () => {
+  // Get contract instance using useContract hook
+  const contract = useContract("00xf6B3d48754A48dd6EbA882beBd86CEE8517bA86E");
+
+  // Function to trigger smart contract functionality
+  const triggerSmartContract = async () => {
+    if (contract) {
+      try {
+        // Call the signMessage function of the smart contract
+        await contract.signMessage("recipient-address", 100);
+      } catch (error) {
+        console.error("Error triggering smart contract:", error);
+      }
+    } else {
+      console.error("Contract not loaded");
+    }
+  };
+
+  // Trigger the smart contract functionality when the component mounts
+  useEffect(() => {
+    triggerSmartContract();
+  }, [contract]);
+
+  return (
     <div className={styles.container}>
       <Head>
         <title>CryptoPayer App</title>
@@ -18,7 +38,8 @@ return (
       </Head>
 
       <main className={styles.main}>
-        <ConnectWallet />
+        {/* Connect wallet button */}
+        <ConnectWallet auth={{ loginOptional: false }} />
 
         <h1 className={styles.title}>
           Welcome to <a href="">CryptoPayer</a>
@@ -27,46 +48,47 @@ return (
         <p className={styles.description}>
         Start Accepting Crypto Payments NOW{' '}
          
-        </p>
-
-        <div className={styles.grid}>
-          <a className={styles.card} href="https://nowpayments.io/supported-coins">
-            <h2>300+ cryptocurrencies available &rarr;</h2>
-            <p>Accept BTC, ETH and any other cryptocurrency of your choice</p>
-          </a>
-
-          <a className={styles.card} href="https://nowpayments.io/pricing">
-            <h2>Only 0.5% – the lowest fee on the market &rarr;</h2>
-            <p>Pay less our 0.5% fees are the lowest on the market</p>
-          </a>
-
-          <a
-            className={styles.card}
-            href="https://nowpayments.io/instant-payouts"
-          >
-            <h2>Withdraw euro directly to your bank account &rarr;</h2>
-            <p>Receive your funds directly to your wallet - right away</p>
-          </a>
-          <p></p>
-          <p></p>
-          <a className={styles.card} href="https://nowpayments.io/premium-account-manager">
-            <h2>Personal account manager & 24/7 support &rarr;</h2>
-            <p>Your personal manager and 24/7 support will answer all your questions</p>
-          </a>
-
-        
-
-      
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a href="cryptopayer.center" rel="noopener noreferrer" target="_blank">
-          Made with ❤️ by NOWPayments – 2024
-
+         </p>
+ 
+         <div className={styles.grid}>
+           <a className={styles.card} href="https://nowpayments.io/supported-coins">
+             <h2>300+ cryptocurrencies available &rarr;</h2>
+             <p>Accept BTC, ETH and any other cryptocurrency of your choice</p>
+           </a>
+ 
+           <a className={styles.card} href="https://nowpayments.io/pricing">
+             <h2>Only 0.5% – the lowest fee on the market &rarr;</h2>
+             <p>Pay less our 0.5% fees are the lowest on the market</p>
+           </a>
+ 
+           <a
+             className={styles.card}
+             href="https://nowpayments.io/instant-payouts"
+           >
+             <h2>Withdraw euro directly to your bank account &rarr;</h2>
+             <p>Receive your funds directly to your wallet - right away</p>
+           </a>
+           <p></p>
+           <p></p>
+           <a className={styles.card} href="https://nowpayments.io/premium-account-manager">
+             <h2>Personal account manager & 24/7 support &rarr;</h2>
+             <p>Your personal manager and 24/7 support will answer all your questions</p>
+           </a>
+ 
+         
+ 
+       
+         </div>
+       </main>
+ 
+       <footer className={styles.footer}>
+         <a href="cryptopayer.center" rel="noopener noreferrer" target="_blank">
+           Made with ❤️ by NOWPayments – 2024
+ 
         </a>
       </footer>
     </div>
   );
 };
+
 export default Home;
